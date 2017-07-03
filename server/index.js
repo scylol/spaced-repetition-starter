@@ -4,10 +4,11 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const BearerStrategy = require('passport-http-bearer').Strategy;
 const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
 
 require('dotenv').config();
 const {DATABASE_URL, PORT} = process.env;
-const {Question} = require('./models');
+const {Question, User} = require('./models');
 // const {DATABASE_URL, PORT} = require('../config');
 mongoose.connect(DATABASE_URL,function(err){
   if(err) console.log('Something wrong with mongoose connection');
@@ -24,17 +25,30 @@ if(process.env.NODE_ENV != 'production') {
 
 const app = express();
 
-const database = {
-};
+// const database = {
+// };
 
 app.use(passport.initialize());
+app.use(bodyParser.json());
 
 //api endpoints for database
-app.get('/api/questions', (req, res) => {
+app.get('/api/questions', passport.authenticate('bearer', {session: false}), (req, res) => {
   Question
     .find()
     .then(questions =>{
       return res.json(questions.map(question => question.apiRepr()));
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json({error: 'Something went wrong!!!'});
+    });
+});
+
+app.get('/api/users', passport.authenticate('bearer', {session: false}), (req, res) => {
+  User
+    .find()
+    .then(users =>{
+      return res.json(users.map(user => user.apiRepr()));
     })
     .catch(err => {
       console.log(err);
@@ -50,28 +64,32 @@ passport.use(
       callbackURL: '/api/auth/google/callback'
     },
     (accessToken, refreshToken, profile, cb) => {
-        // Job 1: Set up Mongo/Mongoose, create a User model which store the
-        // google id, and the access token
-        // Job 2: Update this callback to either update or create the user
-        // so it contains the correct access token
-      const user = database[accessToken] = {
-        googleId: profile.id,
-        accessToken: accessToken
-      };
-      return cb(null, user);
+      User.find({googleId: profile.id}, function(err, user){
+        if(!user.length) {
+          User.create({
+            googleId: profile.id,
+            name:profile.displayName,
+            accessToken: accessToken
+          }, function(err,user){
+            return cb(null, user);
+          });
+        } else {
+          return cb(null, user);
+        }
+      });
     }
 ));
 
 passport.use(
     new BearerStrategy(
         (token, done) => {
-            // Job 3: Update this callback to try to find a user with a
-            // matching access token.  If they exist, let em in, if not,
-            // don't.
-          if (!(token in database)) {
-            return done(null, false);
-          }
-          return done(null, database[token]);
+          User.find({accessToken: token}, function(err, user){
+            if(!user.length) {
+              return done(null, false);
+            }
+            console.log('UserToken',user);
+            return done(null, user);
+          });
         }
     )
 );
