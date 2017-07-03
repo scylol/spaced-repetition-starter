@@ -15,4 +15,19 @@ questionSchema.methods.apiRepr = function() {
 
 const Question = mongoose.model('Question', questionSchema);
 
-module.exports = {Question};
+const userSchema = mongoose.Schema({
+  googleId: {type: String, required: true},
+  name: {type: String, required: true},
+  accessToken: {type: String, required: true}
+});
+
+userSchema.methods.apiRepr = function() {
+  return {
+    id: this._id
+  };
+};
+
+const User = mongoose.model('User', userSchema);
+
+
+module.exports = {Question, User};
