@@ -25,9 +25,6 @@ if(process.env.NODE_ENV != 'production') {
 
 const app = express();
 
-// const database = {
-// };
-
 app.use(passport.initialize());
 app.use(bodyParser.json());
 
@@ -44,11 +41,12 @@ app.get('/api/questions', passport.authenticate('bearer', {session: false}), (re
     });
 });
 
-app.get('/api/users', passport.authenticate('bearer', {session: false}), (req, res) => {
+app.get('/api/users/:accessToken',  (req, res) => {
   User
-    .find()
-    .then(users =>{
-      return res.json(users.map(user => user.apiRepr()));
+    .findOne({accessToken: req.params.accessToken})
+    .then(user =>{
+      console.log(user);
+      return res.json(user);
     })
     .catch(err => {
       console.log(err);
@@ -113,18 +111,6 @@ app.get('/api/auth/logout', (req, res) => {
   res.clearCookie('accessToken');
   res.redirect('/');
 });
-
-app.get('/api/me',
-    passport.authenticate('bearer', {session: false}),
-    (req, res) => res.json({
-      googleId: req.user.googleId
-    })
-);
-
-// app.get('/api/questions',
-//     passport.authenticate('bearer', {session: false}),
-//     (req, res) => res.json(['Question 1', 'Question 2'])
-// );
 
 // Serve the built client
 app.use(express.static(path.resolve(__dirname, '../client/build')));
