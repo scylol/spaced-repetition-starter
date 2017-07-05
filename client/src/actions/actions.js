@@ -38,6 +38,18 @@ export const fetchUserError = error => ({
   error
 });
 
+export const LOG_OUT = 'LOG_OUT';
+export const logout = () => ({
+  type: LOG_OUT
+});
+
+export const SHOW_FEEDBACK = 'SHOW_FEEDBACK';
+export const showFeedback = () => ({
+  type: SHOW_FEEDBACK
+});
+
+
+
 export const fetchQuestions = (accessToken) => (dispatch) => {
   dispatch(fetchQuestionsRequest());
   fetch('/api/questions', {
