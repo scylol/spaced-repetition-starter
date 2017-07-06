@@ -3,6 +3,8 @@ import * as Cookies from "js-cookie";
 import { connect } from "react-redux";
 import { fetchQuestions, nextQuestion } from "../actions/actions";
 import LinkedList from "../linkedList";
+import QuestionsNavbar from './questions-nav.js';
+
 
 export class QuestionPage extends React.Component {
   constructor() {
@@ -78,6 +80,7 @@ export class QuestionPage extends React.Component {
 
     return (
       <div>
+        <QuestionsNavbar/>
         <ul className="question-list">
           {this.state.myLinkedList.get(this.props.currentQuestion).question}
         </ul>
