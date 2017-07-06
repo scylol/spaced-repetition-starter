@@ -8,14 +8,20 @@ import UserInput from './user-input.js';
 
 
 export class QuestionPage extends React.Component {
-    constructor() {
-        super();
-        this.componentDidMount = this.componentDidMount.bind(this);
-    }
+    // constructor() {
+    //     super();
+    //     this.componentDidMount = this.componentDidMount.bind(this);
+    // }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
         this.props.dispatch(fetchQuestions(accessToken));
+    }
+
+    lister(){
+        return this.props.questions.map((question, index) => {  
+            return <li key={index}>{question.question}</li>
+        });
     }
 
     render() {
@@ -26,10 +32,11 @@ export class QuestionPage extends React.Component {
 
         return (
             <div>
-                <QuestionPage/>
+                {/*<QuestionPage/>*/}
                 <QuestionsNavbar/>
                 <ul className="question-list">
-                    {questions}
+                    {/*{questions}*/}
+                    {this.lister()}
                 </ul>
                 <UserInput/>
                 <FeedBack/>

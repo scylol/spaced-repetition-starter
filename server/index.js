@@ -9,20 +9,25 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 const {DATABASE_URL, PORT} = process.env;
 const {Question, User} = require('./models');
+console.log(DATABASE_URL);
 // const {DATABASE_URL, PORT} = require('../config');
 mongoose.connect(DATABASE_URL,function(err){
-  if(err) console.log('Something wrong with mongoose connection');
-  console.log('MLab connected!');
+  if(err) {console.log('Something wrong with mongoose connection');}
+  else
+  {console.log('MLab connected!');}
 });
-let secret = {
-  CLIENT_ID: process.env.CLIENT_ID,
-  CLIENT_SECRET: process.env.CLIENT_SECRET
-};
+
+// let secret = {
+//   CLIENT_ID: process.env.CLIENT_ID,
+//   CLIENT_SECRET: process.env.CLIENT_SECRET
+// };
+const { CLIENT_SECRET, CLIENT_ID } = require('./secret');
 
 if(process.env.NODE_ENV != 'production') {
   secret = require('./secret');
 }
 
+console.log('CHECK',CLIENT_ID,CLIENT_SECRET);
 const app = express();
 
 app.use(passport.initialize());
@@ -54,7 +59,7 @@ app.get('/api/users/:accessToken',  (req, res) => {
     });
 });
 
-
+/*
 passport.use(
     new GoogleStrategy({
       clientID:  secret.CLIENT_ID,
@@ -62,6 +67,7 @@ passport.use(
       callbackURL: '/api/auth/google/callback'
     },
     (accessToken, refreshToken, profile, cb) => {
+  
       User.find({googleId: profile.id}, function(err, user){
         if(!user.length) {
           User.create({
@@ -75,6 +81,48 @@ passport.use(
           return cb(null, user);
         }
       });
+      
+      User.find({
+        googleId: profile.index
+      }, (err, user) => {
+        if(!user.length){
+          User.create({
+            accessToken: accessToken,
+            googleId: profile.id,
+            name: profile.displayName
+          })
+          return cb(null, user)
+        } else {
+          return cb(null,user[0])
+        }
+      }
+      )
+    })
+));
+*/
+
+passport.use(
+    new GoogleStrategy({
+        clientID:  CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        callbackURL: `/api/auth/google/callback`
+    },
+    (accessToken, refreshToken, profile, cb) => {
+
+        User.find({
+          googleId: profile.id
+        }, (err, user) => {
+          if(!user.length) {
+        User.create({
+            accessToken: accessToken,
+            googleId: profile.id,
+            name: profile.displayName,
+            })
+            return cb(null,user)
+          }else {
+            return cb(null, user[0])
+          }
+        })
     }
 ));
 

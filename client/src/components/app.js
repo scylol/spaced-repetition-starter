@@ -7,10 +7,10 @@ import QuestionPage from './question-page';
 import LoginPage from './login-page';
 
 class App extends React.Component {
-    constructor() {
-        super();
-        this.componentDidMount = this.componentDidMount.bind(this);
-    }
+    // constructor(props) {
+    //     super(props);
+    //     this.componentDidMount = this.componentDidMount.bind(this);
+    // }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
@@ -21,12 +21,10 @@ class App extends React.Component {
     }
 
     render() {
-        if (!this.props.currentUser) {
-            //return <LoginPage />;
-            return <QuestionPage/>;
-        }
-
-        return <QuestionPage />;
+        if (this.props.currentUser===null)    return <LoginPage />;
+            //return <QuestionPage/>;
+       return <QuestionPage />;
+    // return <h2>Logged In</h2>
     }
 }
 

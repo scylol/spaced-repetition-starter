@@ -58,7 +58,8 @@ export const fetchQuestions = (accessToken) => (dispatch) => {
     }
   }).then(res => {
     if(!res.ok) {
-      return Promise.reject(res.statusText);
+      // return Promise.reject(res.statusText);
+      
     }
     return res.json();
   }).then(data => {
@@ -81,7 +82,8 @@ export const fetchUser = (accessToken) => (dispatch) => {
         Cookies.remove('accessToken');
         return;
       }
-      return Promise.reject(res.statusText);
+      // return Promise.reject(res.statusText);
+      dispatch(fetchUserError('res.error'))
     }
     return res.json();
   }).then(user => {

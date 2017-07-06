@@ -31,7 +31,7 @@ export default function reducer(state=initialState, action) {
   }
   else if(action.type === FETCH_USER_SUCCESS) {
       console.log(action.user)
-      return {...state, currentUser: action.user.name, loading: false, error: null}
+      return {...state, currentUser: action.user, loading: false, error: null}
   }
   else if(action.type === LOG_OUT) {
     return {...state, logout: true}

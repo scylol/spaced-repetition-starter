@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function UserInput(){
+export default function UserInput(){
         return (
            <form>
                 <input type="text" name="userGuess" id="userGuess"
