@@ -5,7 +5,7 @@ export default function UserInput(){
            <form>
                 <input type="text" name="userGuess" id="userGuess"
                     className="text" required/>
-                <input type="submit" id="enterAnswerButton" className="button" name="submit" value="usersAnswer"/>
+                <input type="submit" id="enterButton" className="enterButton" name="submit" value="Enter"/>
             </form>
         );
     }
