@@ -7,10 +7,10 @@ import QuestionPage from './question-page';
 import LoginPage from './login-page';
 
 class App extends React.Component {
-    //constructor() {
-      //  super();
-        //this.componentDidMount = this.componentDidMount.bind(this);
-    //}
+    constructor() {
+       super();
+        this.componentDidMount = this.componentDidMount.bind(this);
+    }
 
     componentDidMount() {
         const accessToken = Cookies.get('accessToken');
