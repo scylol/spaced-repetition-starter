@@ -1,0 +1,16 @@
+.navBarHeader {
+    margin: 30px;
+    display: flex;
+    border-bottom: 2px solid lightgrey;
+}
+
+.login_button {
+    margin-left: 400px;
+    margin-top: 25px;
+    margin-bottom: 25px;
+
+}
+
+button, input, ul {
+    margin: 30px;
+}
