@@ -7,7 +7,6 @@ const questionSchema = mongoose.Schema({
 
 questionSchema.methods.apiRepr = function() {
   return {
-    id: this._id,
     question: this.question,
     answer: this.answer
   };
