@@ -21,7 +21,7 @@ class App extends React.Component {
     }
 
     render() {
-        if (!this.props.currentUser===null) return <LoginPage />;
+        if (this.props.currentUser===null) return <LoginPage />;
         
         return <QuestionPage />;
     }
