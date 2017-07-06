@@ -38,6 +38,12 @@ export const fetchUserError = error => ({
   error
 });
 
+export const NEXT_QUESTION = 'NEXT_QUESTION';
+export const nextQuestion = (counter) => ({
+  type: NEXT_QUESTION,
+  counter
+});
+
 export const fetchQuestions = (accessToken) => (dispatch) => {
   dispatch(fetchQuestionsRequest());
   fetch('/api/questions', {
