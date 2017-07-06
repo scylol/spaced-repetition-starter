@@ -24,7 +24,6 @@ class App extends React.Component {
         if (this.props.currentUser===null)    return <LoginPage />;
             //return <QuestionPage/>;
        return <QuestionPage />;
-    // return <h2>Logged In</h2>
     }
 }
 
