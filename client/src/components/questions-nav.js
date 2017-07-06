@@ -10,7 +10,7 @@ export default function QuestionsNavbar() {
     return(
         <div className='navBarHeader'>
             <h1>{navBarHeader}</h1>
-            <button className='login_button'>
+            <button className='login_button' >
                 {button}
             </button>
         </div>

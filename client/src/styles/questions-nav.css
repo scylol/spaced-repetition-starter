@@ -8,9 +8,12 @@
     margin-left: 400px;
     margin-top: 25px;
     margin-bottom: 25px;
-
 }
 
-button, input, ul {
-    margin: 30px;
+ul {
+    font-size: 75px;    
+}
+
+button {
+    margin-left: 50px;
 }

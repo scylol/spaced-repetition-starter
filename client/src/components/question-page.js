@@ -81,13 +81,15 @@ export class QuestionPage extends React.Component {
     return (
       <div>
         <QuestionsNavbar/>
-        <ul className="question-list">
-          {this.state.myLinkedList.get(this.props.currentQuestion).question}
-        </ul>
-        <button className="submit-button" onClick={this.checkAnswer}>
-          Submit
-        </button>
-        <input type='text' value={this.state.value} onChange={this.handleChange} />
+        <div className="input-container">
+          <ul className="question-list">
+            {this.state.myLinkedList.get(this.props.currentQuestion).question}
+          </ul>
+          <button className="submit-button" onClick={this.checkAnswer}>
+            Submit
+          </button>
+          <input type='text' value={this.state.value} onChange={this.handleChange} />
+        </div>
       </div>
     );
   }
